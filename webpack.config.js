@@ -1,16 +1,21 @@
 var paths = require('./paths.js');
 
 module.exports = {
+  
   devtool: 'cheap-module-source-map',
   devServer: { inline: true },
+  
   entry: {
     app: [paths.source + 'main.js']
   },
+  
   output: {
     path: paths.build,
     filename: 'bundle.js'
   },
+  
   module: {
+  
     preLoaders: [
       {
         test: /\.js$/,
@@ -18,13 +23,15 @@ module.exports = {
         exclude: /node_modules/
       }
     ],
+
     loaders: [
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules/,
+        exclude: /node_modules\/(?!@?material)/,
         query: {
-          presets: ['es2015']
+          presets: ['es2015'],
+          cacheDirectory: true
         }
       },
       {
@@ -32,16 +39,25 @@ module.exports = {
         loaders: ['style-loader', 'css-loader?sourceMap', 'sass-loader?sourceMap']
       },
       {
-        include: /\.json$/,
-        loader: 'file',
-        query: {
-          name: '[name].[hash:8].[ext]'
-        }
+        test: /\.css$/,
+        loaders: ['style-loader', 'css-loader']
+      },
+      {
+        include: [/\.json$/, /\.(eot|woff2|woff|ttf|svg)$/],
+        loader: 'url-loader?limit=1000'
       }
     ]
   },
+  
   eslint: {
     configFile: './eslintrc.js',
     failOnError: true
+  },
+  sassLoader: {
+    includePaths: ['./node_modules/material-design-lite/src']
+  },
+  fileLoader: {
+    name: '[name].[hash:8].[ext]'
   }
+
 };
