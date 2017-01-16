@@ -13,9 +13,8 @@ module.exports = {
     path: paths.build,
     filename: 'bundle.js'
   },
-  
+
   module: {
-  
     preLoaders: [
       {
         test: /\.js$/,
@@ -61,7 +60,7 @@ module.exports = {
     includePaths: ['./node_modules/material-design-lite/src']
   },
   fileLoader: {
-    name: '[name].[hash:8].[ext]'
+    name: '[name].[ext]'
   }
 
 };
