@@ -1,1 +1,15 @@
 @import 'material-design-lite';
+
+html, body {
+  font-family: 'Roboto', 'Helvetica', sans-serif;
+}
+
+// NAVIGATION
+
+.mdl-layout__drawer-button {
+	outline: none;
+}
+
+.mdl-navigation .material-icons {
+    margin-right: 32px;
+}

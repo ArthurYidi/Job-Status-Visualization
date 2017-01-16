@@ -23,3 +23,10 @@ Starts the development server.
 - d3
 - Material Design Lite (currently Material Components for the Web is missing many components).
 - EJS Templates
+
+## Requirements
+
+-  allow to filter by location, client, and time period
+-  rough state of all the jobs in the system
+-  important: position of jobs in time (start+end) and status
+

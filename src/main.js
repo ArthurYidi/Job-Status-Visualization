@@ -10,16 +10,18 @@ import datafile from './data.json';
 import main from './templates/main.ejs';
 
 var mainHTML = main({
-  title: 'Test',
-  tabs: [
+  navigation: [
     {
-      title: 'Tab 1'
+      title: 'Jyve Dashboard',
+      icon: 'home'
     },
     {
-      title: 'Tab 2'
+      title: 'Messages',
+      icon: 'inbox'
     },
     {
-      title: 'Tab 3'
+      title: 'Updates',
+      icon: 'flag'
     }
   ]
 });
@@ -31,6 +33,4 @@ d3.json(datafile, (error, data) => {
     console.log(error);
     return;
   }
-  
-  console.log(data);
 });
