@@ -22,3 +22,4 @@ Starts the development server.
 
 - d3
 - Material Design Lite (currently Material Components for the Web is missing many components).
+- EJS Templates
