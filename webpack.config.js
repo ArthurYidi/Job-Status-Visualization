@@ -27,10 +27,12 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules\/(?!@?material)/,
+        // exclude all node_modules except material design packages
+        exclude: /node_modules\/(?!(@?material|mdl-|md-))/,
         query: {
           presets: ['es2015'],
-          cacheDirectory: true
+          cacheDirectory: true,
+          babelrc: false
         }
       },
       {
@@ -54,6 +56,7 @@ module.exports = {
   
   eslint: {
     configFile: './eslintrc.js',
+    fix: true,
     failOnError: true
   },
   sassLoader: {
