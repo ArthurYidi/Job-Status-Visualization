@@ -1,7 +1,7 @@
 <!-- Simple header with fixed tabs. -->
 <div class="mdl-layout
-            mdl-js-layout
-            mdl-layout--fixed-header">
+  mdl-js-layout
+  mdl-layout--fixed-header">
   
   <header class="mdl-layout__header">
     <div class="mdl-layout__header-row">
@@ -9,7 +9,6 @@
       <span class="mdl-layout-title"><%= navigation[0].title %></span>
       
       <div class="mdl-layout-spacer"></div>
-
       <!-- Search Field -->
       <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
         <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
@@ -22,25 +21,21 @@
       </div>
     </div>
   </header>
-
   <!-- Drawer -->
   <div class="mdl-layout__drawer">
     <nav class="mdl-navigation">
       <% for (var i = 0; i < navigation.length; ++i) {%>
-        <a class="mdl-navigation__link" href="">
-          <i class="material-icons" role="presentation"><%= navigation[i].icon %></i>
-          <%= navigation[i].title %>
-        </a>
+      <a class="mdl-navigation__link" href="">
+        <i class="material-icons" role="presentation"><%= navigation[i].icon %></i>
+        <%= navigation[i].title %>
+      </a>
       <% } %>
     </nav>
   </div>
   
   <main class="mdl-layout__content">
-    <div class="page-content">
-    <% for (var i = 0; i < 2; ++i) {%>
-      <p>test</p>
-    <% } %>
-    </div>
+  <div class="page-content">
+    <%- dashboard %>
+  </div>
   </main>
-
 </div>

@@ -1,0 +1,51 @@
+<div class="mdl-grid">
+  
+  <!-- Chart -->
+  <div id="chart" class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
+  </div>
+
+  <!-- Filters -->
+  <div class="mdl-card mdl-color--white mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet">
+    
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">Filters</h2>
+    </div>
+    <ul class="demo-list-item mdl-list">
+      <% for (var i = 0; i < filterFields.length; i++) { %>
+
+        <li class="mdl-list__item mdl-list__item--two-line">
+          <span class="mdl-list__item-primary-content">
+            <i class="material-icons mdl-list__item-icon"><%= filterFields[i].icon %></i>
+            <%- filterFields[i].field(filterFields[i].props) %>
+          </span>
+        </li>
+        
+      <% } %>
+    </ul>
+  </div>
+  
+  <!-- Summary -->
+  <div class="mdl-card mdl-color--white mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet">
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">Summary</h2>
+    </div>
+    <ul class="demo-list-item mdl-list">
+      <li class="mdl-list__item mdl-list__item--two-line">
+        <span class="mdl-list__item-primary-content">
+          <span>230</span>
+          <span class="mdl-list__item-sub-title">Tasks</span>
+        </span>
+        <span class="mdl-list__item-secondary-action">
+        </span>
+      </li>
+      <li class="mdl-list__item mdl-list__item--two-line">
+        <span class="mdl-list__item-primary-content">
+          <span>100</span>
+          <span class="mdl-list__item-sub-title">Expired Tasks</span>
+        </span>
+        <span class="mdl-list__item-secondary-action">
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>

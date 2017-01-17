@@ -1,36 +1,35 @@
 // material design lite
-// export required since library doesn't support es6 modules
 import 'material-design-icons/iconfont/material-icons.css';
+import 'md-date-time-picker/dist/css/mdDateTimePicker.min.css';
+import 'mdl-select-component/mdl-selectfield.min.css';
 import './styles/main.scss';
+// export required since library doesn't support es6 modules
 import mdl from 'exports?componentHandler!material-design-lite/material.js';
 
-import * as d3 from 'd3';
-
-import datafile from './data.json';
+import Dashboard from './dashboard.js';
 import main from './templates/main.ejs';
 
-var mainHTML = main({
-  navigation: [
-    {
-      title: 'Jyve Dashboard',
-      icon: 'home'
-    },
-    {
-      title: 'Messages',
-      icon: 'inbox'
-    },
-    {
-      title: 'Updates',
-      icon: 'flag'
-    }
-  ]
-});
+var dashboard;
 
-document.body.innerHTML = mainHTML;
+function init() {
+  const navigation = [{
+    title: 'Jyve Dashboard',
+    icon: 'home'
+  }, {
+    title: 'Messages',
+    icon: 'inbox'
+  }, {
+    title: 'Updates',
+    icon: 'flag'
+  }];
 
-d3.json(datafile, (error, data) => {
-  if (error) {
-    console.log(error);
-    return;
-  }
-});
+  // render html
+  document.body.innerHTML = main({
+    navigation: navigation,
+    dashboard: Dashboard.html()
+  });
+
+  dashboard = new Dashboard();
+}
+
+init();
