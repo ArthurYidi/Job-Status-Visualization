@@ -13,7 +13,7 @@ function build() {
     if (err) {
       console.log(err);
     }
-    
+
     var output = stats.toString({
       chunks: false,
       colors: true

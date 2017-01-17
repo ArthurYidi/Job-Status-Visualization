@@ -18,9 +18,9 @@ function run() {
   });
 
   devServer.listen(8080, (err, result) => {
-      if (err) {
-        return console.log(err);
-      }
+    if (err) {
+      return console.log(err);
+    }
   });
 }
 
