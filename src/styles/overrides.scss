@@ -1,0 +1,73 @@
+// Overrides since no framework is perfect.
+
+@import 'color-definitions';
+
+.textfield-readonly {
+  user-select: none;
+  cursor: pointer;
+}
+
+.mdl-selectfield__box .mdl-selectfield__box-value {
+  cursor: pointer;
+}
+
+// TIME PICKER
+
+.mddtp-picker__cell {
+  user-select: none;
+}
+
+.mddtp-picker__body .mddtp-picker__viewHolder .mddtp-picker__grid span.mddtp-picker__cell--disabled {
+  cursor: default;
+  user-select: none;
+}
+
+.mddtp-picker-date .mddtp-picker__right:disabled {
+  cursor: default;
+  background-color: transparent;
+}
+
+.mddtp-picker-date .mddtp-picker__left:disabled {
+  cursor: default;
+  background-color: transparent;
+}
+
+.mddtp-picker__years li {
+  user-select: none;
+}
+
+// NAVIGATION
+
+.mdl-layout__drawer-button {
+  outline: none;
+}
+
+.mdl-navigation .material-icons {
+  margin-right: 32px;
+}
+
+// CARDS
+
+.mdl-list__item {
+  overflow: visible;
+}
+
+.mdl-card {
+  overflow: visible;
+}
+
+.mdl-selectfield--floating-label.is-dirty .mdl-selectfield__label {
+  color: $input-text-highlight-color;
+}
+
+.mdl-list__item-primary-content {
+  & > .mdl-textfield {
+    width: auto;
+    min-width: 220px;
+  }
+
+  & > .mdl-selectfield {
+    width: auto;
+    min-width: 220px;
+  }
+}

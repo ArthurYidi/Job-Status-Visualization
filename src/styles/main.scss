@@ -1,15 +1,14 @@
+
+@import 'color-definitions';
+
+// jyve color
+$layout-drawer-width: 280px;
+$color-primary: '230,50,36';
+
 @import 'material-design-lite';
+@import 'overrides';
 
 html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
 }
 
-// NAVIGATION
-
-.mdl-layout__drawer-button {
-	outline: none;
-}
-
-.mdl-navigation .material-icons {
-    margin-right: 32px;
-}
