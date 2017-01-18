@@ -1,4 +1,3 @@
-
 @import 'color-definitions';
 
 // jyve color
@@ -7,8 +6,8 @@ $color-primary: '230,50,36';
 
 @import 'material-design-lite';
 @import 'overrides';
+@import 'chart';
 
 html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
 }
-

@@ -1,0 +1,32 @@
+// CHART
+
+#chart {
+  min-width: 1150px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.timeChart {
+  align-self: center;
+  shape-rendering: crispEdges;
+
+  .laneLine {
+    fill: #f7f7f7;
+  }
+
+  .nowLine {
+    stroke: grey;
+    stroke-opacity: 0.7;
+  }
+
+  .grid {
+    stroke: lightgrey;
+    stroke-opacity: 0.7;
+  }
+
+  .numberTasks {
+    fill: #949494;
+    font-size: 12px;
+  }
+}
