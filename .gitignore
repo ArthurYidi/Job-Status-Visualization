@@ -3,3 +3,4 @@ data.json
 node_modules
 .env
 npm-debug.log
+build/data.json
