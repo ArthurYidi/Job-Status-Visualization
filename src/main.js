@@ -22,14 +22,15 @@ function init() {
     title: 'Updates',
     icon: 'flag'
   }];
-
+  
+  dashboard = new Dashboard();
   // render html
   document.body.innerHTML = main({
     navigation: navigation,
-    dashboard: Dashboard.html()
+    dashboard: dashboard.html()
   });
 
-  dashboard = new Dashboard();
+  dashboard.initialize();
 }
 
 init();
