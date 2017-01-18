@@ -4,7 +4,7 @@
 
 ## Initial Setup
 
-Add missing `data.json` to `./src/data.json`
+Add missing `data.json` to `./src/data.json` or `./build/data.json`
 
 Run `yarn install`
 
@@ -17,6 +17,12 @@ Run `yarn install`
 `yarn start`
 
 Starts the development server.
+
+or
+
+`cd ./build`
+
+and run a local server.
 
 ## Frameworks
 
