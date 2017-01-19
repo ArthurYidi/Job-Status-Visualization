@@ -1,3 +1,4 @@
+var path = require('path');
 var paths = require('./paths.js');
 
 module.exports = {
@@ -6,7 +7,7 @@ module.exports = {
   devServer: { inline: true },
   
   entry: {
-    app: [paths.source + 'main.js']
+    app: [path.join(paths.source, 'main.js')]
   },
   
   output: {
