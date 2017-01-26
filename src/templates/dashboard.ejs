@@ -12,7 +12,7 @@
     <div class="mdl-card__title">
       <h2 class="mdl-card__title-text">Filters</h2>
     </div>
-    <ul class="demo-list-item mdl-list">
+    <ul class="mdl-list">
       <% for (var i = 0; i < filterFields.length; i++) { %>
       
       <li class="mdl-list__item mdl-list__item--two-line">
@@ -31,32 +31,11 @@
     <div class="mdl-card__title">
       <h2 class="mdl-card__title-text">Summary</h2>
     </div>
-    <ul class="demo-list-item mdl-list">
-      
-      <li class="mdl-list__item mdl-list__item--two-line">
-        <span class="mdl-list__item-primary-content">
-          <span>217</span>
-          <span class="mdl-list__item-sub-title">Tasks</span>
-        </span>
-      </li>
-      <li class="mdl-list__item mdl-list__item--two-line">
-        <span class="mdl-list__item-primary-content">
-          <span>24</span>
-          <span class="mdl-list__item-sub-title">Unclaimed Tasks</span>
-        </span>
-      </li>
-      <li class="mdl-list__item mdl-list__item--two-line">
-        <span class="mdl-list__item-primary-content">
-          <span>14</span>
-          <span class="mdl-list__item-sub-title">In Progress Tasks</span>
-        </span>
-      </li>
-      <li class="mdl-list__item mdl-list__item--two-line">
-        <span class="mdl-list__item-primary-content">
-          <span>125</span>
-          <span class="mdl-list__item-sub-title">Claimed Tasks</span>
-        </span>
-      </li>
+    <ul class="mdl-list">
+
+      <% for (var i = 0; i < summaryFields.length; i++) { %>
+        <%- summaryFields[i].template(summaryFields[i]) %>
+      <% } %>
 
     </ul>
   </div>
