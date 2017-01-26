@@ -8,8 +8,10 @@ Add missing `./build/data.json`
 
 Run local a server inside build:
 
-`cd ./build`
-`python -m SimpleHTTPServer 8080`
+```
+cd ./build
+python -m SimpleHTTPServer 8080
+```
 
 ## Build Setup
 
