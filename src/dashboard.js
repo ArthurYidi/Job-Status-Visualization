@@ -1,81 +1,51 @@
 import Chart from './chart.js';
 
+import * as fields from './fields.js';
 import dashboard from './templates/dashboard.ejs';
-import selectField from './templates/selectField.ejs';
-import selectTime from './templates/selectTime.ejs';
-
-// missing mdl components
-import 'mdl-select-component/src/selectfield/selectfield.js';
 import moment from 'moment/moment.js';
-import mdDateTimePicker from 'md-date-time-picker/dist/js/mdDateTimePicker.js';
 
-class Field {
-  constructor(dashboard, props) {
-    this.dashboard = dashboard;
-
-    this.name = props.name;
-    this.id = props.id;
-    this.value = props.value;
-    this.template = props.template;
-    this.icon = props.icon;
-    this.model = props.model;
-
-    this.dom = null;
-  }
-  initialize() {}
-  update() {}
-}
-
-class SelectField extends Field {
-  constructor(dashboard, props) {
-    super(dashboard, props);
-    this.template = selectField;
-    this.selectList = props.selectList;
-  }
-}
-
-class TimeField extends Field {
-  constructor(dashboard, props) {
-    super(dashboard, props);
-    this.template = selectTime;
-  }
-
-  initialize() {
-    this.dom = document.getElementById(this.id);
-
-    this.dom.addEventListener('onOk', (e) => {
-      let time = e.target.timePicker.time;
-      e.target.value = time.format('LL');
-      this.model(time);
-    });
-
-    this.dom.onfocus = (e) => {
-      e.target.timePicker = new mdDateTimePicker({
-        type: 'date',
-        init: this.value(),
-        past: this.dashboard.filters.minTime,
-        future: this.dashboard.filters.maxTime
-      });
-      e.target.timePicker.trigger = e.target;
-      e.target.timePicker.toggle();
-    };
-  }
-}
-
+// MODEL
 class Filters {
-  constructor(onUpdate) {
-    this.onUpdate = onUpdate;
+  constructor() {
     this.now = moment('2016-11-01T14:30:00');
     this.nowDayStart = moment(this.now).startOf('day');
+
     this._maxTime = moment('2016-12-30T07:00:00.000Z');
     this._minTime = moment('2016-06-01T07:30:00.000Z');
     this._startTime = moment(this.nowDayStart).subtract(1, 'days');
     this._endTime = moment(this.nowDayStart).add(6, 'days');
+    this._clients = ['All Clients'];
+    this._client = 0;
+    this._store = 0;
+    this._stores = ['All Stores'];
+    this._summary = {};
+
+    this._events = {
+      'update:time': [],
+      'update:client': [],
+      'update:store': [],
+      'update:clientList': [],
+      'update:storeList': [],
+      'update:summary': []
+    };
+  }
+
+  register(callback, ...events) {
+    for (var event of events) {
+      this._events[event].push(callback);
+    }
+  }
+
+  sendUpdate(event) {
+    let callbacks = this._events[event];
+    for (var callback of callbacks) {
+      callback();
+    }
   }
 
   set startTime(time) {
     this._startTime = time;
-    this.onUpdate();
+    this.sendUpdate('update:time');
   }
 
   get startTime() {
@@ -84,21 +54,66 @@ class Filters {
 
   set endTime(time) {
     this._endTime = time;
-    this.onUpdate();
+    this.sendUpdate('update:time');
   }
 
   get endTime() {
     return this._endTime;
   }
 
-  // TODO
-  set client(c) {
-    this.onUpdate();
+  set clientList(clients) {
+    const previousValue = this._clients[this._client];
+
+    this._clients = clients.slice(0);
+    this._clients.unshift('All Clients');
+
+    this._client = Math.max(0, this._clients.indexOf(previousValue));
+    this.sendUpdate('update:clientList');
   }
-  
-  // TODO
+
+  get clientList() {
+    return this._clients;
+  }
+
+  set storeList(stores) {
+    const previousValue = this._stores[this._store];
+
+    this._stores = stores.slice(0);
+    this._stores.unshift('All Stores');
+
+    this._store = Math.max(0, this._stores.indexOf(previousValue));
+    this.sendUpdate('update:storeList');
+  }
+
+  get storeList() {
+    return this._stores;
+  }
+
+  set client(c) {
+    this._client = c;
+    this.sendUpdate('update:client');
+  }
+
+  get client() {
+    return this._client;
+  }
+
   set store(s) {
-    this.onUpdate();
+    this._store = s;
+    this.sendUpdate('update:store');
+  }
+
+  get store() {
+    return this._store;
+  }
+
+  set summary(s) {
+    this._summary = s;
+    this.sendUpdate('update:summary');
+  }
+
+  get summary() {
+    return this._summary;
   }
 
   set maxTime(time) {} // TODO
@@ -117,50 +132,105 @@ class Filters {
 
 export default class Dashboard {
   constructor() {
-    this.filters = new Filters(() => this.onUpdate());
+    this.filters = new Filters();
 
     this.filterFields = [
-      new TimeField(this, {
+      new fields.TimeField(this, {
         name: 'Start Time',
         id: 'filter-start-time',
-        value: (t) => this.filters.startTime,
-        icon: 'access_time',
-        model: (t) => this.filters.startTime = t
+        value: () => this.filters.startTime,
+        model: (t) => this.filters.startTime = t,
+        icon: 'access_time'
       }),
-      new TimeField(this, {
+      new fields.TimeField(this, {
         name: 'End Time',
         id: 'filter-end-time',
-        value: (t) => this.filters.endTime,
-        icon: 'access_time',
-        model: (t) => this.filters.endTime = t
+        value: () => this.filters.endTime,
+        model: (t) => this.filters.endTime = t,
+        icon: 'access_time'
       }),
-      new SelectField(this, {
+      new fields.SelectField(this, {
         name: 'Client',
         id: 'filter-client',
-        value: 0,
+        value: () => this.filters.client,
+        model: (c) => this.filters.client = c,
+        selectList: () => this.filters.clientList,
+        updateOn: ['update:clientList'],
         icon: 'business',
-        selectList: ['All Clients'],
       }),
-      new SelectField(this, {
+      new fields.SelectField(this, {
         name: 'Store',
         id: 'filter-store',
-        value: 0,
-        icon: 'business',
-        selectList: ['All Stores'],
+        value: () => this.filters.store,
+        model: (s) => this.filters.store = s,
+        selectList: () => this.filters.storeList,
+        updateOn: ['update:storeList'],
+        icon: 'store'
       })
     ];
-  }
 
-  onUpdate() {
-    this.chart.update();
+    this.summaryFields = [
+      new fields.SummaryField(this, {
+        name: 'Unclaimed Tasks',
+        id: 'summary-tasksUnclaimed',
+        value: () => this.filters.summary.unclaimed,
+        updateOn: ['update:summary']
+      }),
+      new fields.SummaryField(this, {
+        name: 'In Progress Tasks',
+        id: 'summary-tasksInProgress',
+        value: () => this.filters.summary.in_progress,
+        updateOn: ['update:summary']
+      }),
+      new fields.SummaryField(this, {
+        name: 'Claimed Tasks',
+        id: 'summary-tasksClaimed',
+        value: () => this.filters.summary.claimed,
+        updateOn: ['update:summary']
+      }),
+      new fields.SummaryField(this, {
+        name: 'Completed Tasks',
+        id: 'summary-tasksCompleted',
+        value: () => this.filters.summary.completed,
+        updateOn: ['update:summary']
+      }),
+      new fields.SummaryField(this, {
+        name: 'Expired Tasks',
+        id: 'summary-tasksExpired',
+        value: () => this.filters.summary.expired,
+        updateOn: ['update:summary']
+      }),
+      new fields.SummaryField(this, {
+        name: 'Total Number of Tasks',
+        id: 'summary-tasks',
+        value: () => this.filters.summary.tasks,
+        updateOn: ['update:summary']
+      })
+    ];
+
+    this.allFields = this.filterFields.concat(this.summaryFields);
   }
 
   initialize() {
-    for (var field of this.filterFields) {
+    for (let field of this.allFields) {
       field.initialize();
     }
 
+    for (let field of this.allFields) {
+      this.filters.register(
+        () => field.update(),
+        ...field.updateOn
+      );
+    }
+
     this.chart = new Chart(this.filters);
+
+    this.filters.register(
+      () => this.chart.update(),
+      'update:time',
+      'update:client',
+      'update:store'
+    );
   }
 
   html() {

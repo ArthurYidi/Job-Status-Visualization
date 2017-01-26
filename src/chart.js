@@ -1,7 +1,5 @@
 import * as d3 from 'd3';
-import {
-  interpolateReds
-} from 'd3-scale-chromatic';
+import { interpolateReds } from 'd3-scale-chromatic';
 import datafile from './data.json';
 import moment from 'moment/moment.js';
 
@@ -19,6 +17,12 @@ export default class Chart {
     this.filters = filters;
     this.root = document.getElementById('chart');
 
+    this.chart = d3.select(this.root)
+      .append('svg')
+      .attr('width', width + margin.left + margin.right)
+      .attr('height', height + margin.top + margin.bottom)
+      .attr('class', 'timeChart');
+
     d3.json(datafile, (error, data) => {
       if (error) {
         console.log(error);
@@ -30,7 +34,8 @@ export default class Chart {
         task.start_after = moment(task.start_after);
       }
 
-      this.initializeChart(data);
+      this._rawData = data;
+      this.update();
     });
   }
 
@@ -115,6 +120,18 @@ export default class Chart {
         return xScale(d);
       });
 
+    main.append('g')
+      .selectAll('.now')
+      .data([this.filters.now])
+      .enter()
+      .append('text')
+      .text('Today')
+      .attr('x', (d) => xScale(d))
+      .attr('y', -10)
+      .attr('dy', '-1.0ex')
+      .attr('text-anchor', 'middle')
+      .attr('class', 'numberTasks');
+
     var maxNumGroups = d3.max(this._nestedData, (d) => {
       return d3.max(d.values, (d) => {
         return d.values.length;
@@ -134,7 +151,6 @@ export default class Chart {
 
       for (var dateIndex in status.values) {
 
-        let date = status.values[dateIndex].key;
         let tasks = status.values[dateIndex].values;
         let numTasks = tasks.length;
         let paddingTop = 13;
@@ -265,60 +281,70 @@ export default class Chart {
       .call(d3.axisBottom(xScale));
   }
 
-
   applyFilters() {
     const startTime = this.filters.startTime;
     const endTime = this.filters.endTime;
 
-    this.data = this._rawData.filter(v => {
-      return ((v.finish_before > startTime) && (v.start_after < endTime));
+    if ((this._startTime !== startTime) || (this._endTime !== endTime)) {
+      this._startTime = startTime;
+      this._endTime = endTime;
+
+      this._dataTimeFiltered = this._rawData.filter(v => {
+        return ((v.finish_before > startTime) && (v.start_after < endTime));
+      });
+
+      this._nestedDataClient = d3.nest()
+        .key((d) => d.client)
+        .key((d) => d.store_name)
+        .rollup((d) => d.length)
+        .map(this._dataTimeFiltered);
+
+      this.filters.clientList = this._nestedDataClient.keys();
+      let stores = [];
+      this._nestedDataClient.each((d) => stores = stores.concat(d.keys()));
+      this._allStores = d3.set(stores).values();
+    }
+
+    const client = this.filters.clientList[this.filters.client];
+
+    if (this.filters.client == 0) {
+      this.filters.storeList = this._allStores;
+    } else {
+      this.filters.storeList = this._nestedDataClient.get(client).keys();
+    }
+
+    const store = this.filters.storeList[this.filters.store];
+
+    this.data = this._dataTimeFiltered.filter((v) => {
+      const isClient = (this.filters.client === 0) ? true : (v.client === client);
+      const isStore = (this.filters.store === 0) ? true : (v.store_name === store);
+      return isClient && isStore;
     });
 
-    var store_names = new Set();
-    var clients = new Set();
-    var statusCount = new Map();
-
-    for (var task of this.data) {
-      store_names.add(task.store_name);
-      clients.add(task.client);
-
-      let count = 1;
-      if (statusCount.has(task.status)) {
-        count = statusCount.get(task.status) + 1;
-      }
-
-      task.statusCountId = count;
-      statusCount.set(task.status, count);
-    }
+    // group by date and status
 
     this._nestedData = d3.nest()
       .key((d) => d.status)
       .key((d) => d.start_after.unix())
       .entries(this.data);
 
-    // console.log(this._nestedData);
-    // console.log(this._statusCount);
-    // console.log(statusCount);
-    // var statusCount = Object.assign({}, Object.from());
+    this._statuses = this._nestedData.map((v) => v.key);
 
-    this._statusCount = statusCount;
-    this._statuses = Array.from(statusCount.keys());
+    // summary
 
-    // TODO update filters model
-    // this.filters.clients = clients;
-  }
+    let statusLengths = this._nestedData.map((v) => {
+      let item = {};
+      item['status'] = v.key;
+      item['length'] = d3.sum(v.values, (d) => d.values.length);
+      return item;
+    });
 
-  initializeChart(data) {
-    this._rawData = data;
+    let summary = d3.nest()
+      .key((d) => d.status)
+      .rollup((d) => d[0].length)
+      .object(statusLengths);
 
-    this.applyFilters();
-
-    this.chart = d3.select(this.root)
-      .append('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
-      .attr('class', 'timeChart');
-
-    this.update();
+    summary['tasks'] = d3.sum(Object.values(summary));
+    this.filters.summary = summary;
   }
 }
