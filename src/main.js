@@ -4,7 +4,7 @@ import 'md-date-time-picker/dist/css/mdDateTimePicker.min.css';
 import 'mdl-select-component/mdl-selectfield.min.css';
 import './styles/main.scss';
 // export required since library doesn't support es6 modules
-import mdl from 'exports?componentHandler!material-design-lite/material.js';
+import 'material-design-lite/material.js';
 
 import Dashboard from './dashboard.js';
 import main from './templates/main.ejs';

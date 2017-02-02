@@ -1,9 +1,14 @@
 var path = require('path');
 var paths = require('./paths.js');
 
+var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+// var CompressionPlugin = require('compression-webpack-plugin');
+
 module.exports = {
   
-  devtool: 'cheap-module-source-map',
+  devtool: 'source-map',
   devServer: { inline: true },
   
   entry: {
@@ -42,11 +47,11 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loaders: ['style-loader', 'css-loader?sourceMap', 'sass-loader?sourceMap']
+        loader: ExtractTextPlugin.extract('css?sourceMap!sass-loader?sourceMap')
       },
       {
         test: /\.css$/,
-        loaders: ['style-loader', 'css-loader']
+        loader: ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap')
       },
       {
         include: [/\.json$/, /\.(eot|woff2|woff|ttf|svg)$/],
@@ -64,7 +69,41 @@ module.exports = {
     includePaths: ['./node_modules/material-design-lite/src']
   },
   fileLoader: {
-    name: '[name].[ext]'
-  }
-
+    name: '[name].[hash:8].[ext]'
+  },
+  
+  plugins: [
+    new ExtractTextPlugin('style.css'),
+    new HtmlWebpackPlugin({
+      template: path.join(paths.source, 'templates/index.ejs')
+    }),
+    
+    new webpack.optimize.AggressiveMergingPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      mangle: true,
+      compress: {
+        warnings: false,
+        pure_getters: true,
+        unsafe: true,
+        unsafe_comps: true,
+        screw_ie8: true
+      },
+      output: {
+        comments: false,
+      },
+      exclude: [/\.min\.js$/gi]
+    }),
+    // ignore moment js locale
+    new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/]),
+    
+    // new CompressionPlugin({
+    //   asset: '[path].gz[query]',
+    //   algorithm: 'gzip',
+    //   test: /\.js$|\.css$|\.html$|\.json$/,
+    //   threshold: 10240,
+    //   minRatio: 0.8
+    // })
+  ]
 };

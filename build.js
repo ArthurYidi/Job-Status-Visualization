@@ -6,7 +6,7 @@ var config = require('./webpack.config.js');
 var fs = require('fs-extra');
 
 function build() {
-  fs.emptyDirSync(paths.build);
+  // fs.emptyDirSync(paths.build);
 
   var compiler = webpack(config);
   compiler.run(function(err, stats) {
@@ -22,7 +22,7 @@ function build() {
     console.log(output);
   });
 
-  fs.copySync(paths.public, paths.build);
+  // fs.copySync(paths.public, paths.build);
 }
 
 build();
