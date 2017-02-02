@@ -4,7 +4,7 @@ var paths = require('./paths.js');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-// var CompressionPlugin = require('compression-webpack-plugin');
+var CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
   
@@ -98,12 +98,12 @@ module.exports = {
     // ignore moment js locale
     new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/]),
     
-    // new CompressionPlugin({
-    //   asset: '[path].gz[query]',
-    //   algorithm: 'gzip',
-    //   test: /\.js$|\.css$|\.html$|\.json$/,
-    //   threshold: 10240,
-    //   minRatio: 0.8
-    // })
+    new CompressionPlugin({
+      asset: '[path].gz[query]',
+      algorithm: 'gzip',
+      test: /\.js$|\.css$|\.html$|\.json$/,
+      threshold: 10240,
+      minRatio: 0.8
+    })
   ]
 };
