@@ -24,4 +24,4 @@
 
 ![inspiration](https://github.com/ArthurYidi/Job-Status-Visualization/blob/master/docs/inspiration1.jpg?raw=true)
 
-![inspiration](https://github.com/ArthurYidi/Job-Status-Visualization/blob/master/docs/inspiration3.png?raw=true)
+![inspiration](https://github.com/ArthurYidi/Job-Status-Visualization/blob/1693a519171103c1683d68f2794c979d050d0135/docs/inspiration3.png?raw=true)
