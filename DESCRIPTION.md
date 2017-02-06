@@ -24,7 +24,7 @@ During a period of three days I was assigned to come up with a prototype to allo
 
 ### Research
 
-Early in the process I explored different existing solutions for keeping track of tasks. The following image provides a  summary a different methods for planning tasks.
+Early in the process I explored different existing solutions for keeping track of tasks. The following image provides a  summary of different methods for planning tasks.
 
 ![inspiration](https://github.com/ArthurYidi/Job-Status-Visualization/blob/master/docs/inspiration2.png?raw=true)
 
