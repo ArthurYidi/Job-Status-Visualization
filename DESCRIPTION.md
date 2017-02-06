@@ -10,7 +10,7 @@
 
 [Jyve](http://www.jyve.com/) is an application that faclitates merchandize inspection for food and bevarage industries. Clients which own big brands such as Gatorade want to make sure their product looks good and is well stocked on stores all over the country. Jyve provides an on-demand labor to fulfill the client's tasks.
 
-During a period of three days I was tasked to come up with a prototype to allow clients and coordinators to view past and current tasks.
+During a period of three days I was assigned to come up with a prototype to allow clients and coordinators to view past and current tasks.
 
 ### Goal
 
@@ -24,10 +24,14 @@ During a period of three days I was tasked to come up with a prototype to allow 
 
 ### Research
 
-The start of process consisted of retrieving and understanding the data from EPA's website. 
+Early in the process I explored different existing solutions for keeping track of tasks. A good summary a different methods for planning tasks
 
 ![inspiration](https://github.com/ArthurYidi/Job-Status-Visualization/blob/master/docs/inspiration2.png?raw=true)
 
-![inspiration](https://github.com/ArthurYidi/Job-Status-Visualization/blob/master/docs/inspiration1.jpg?raw=true)
+A timeline view such as the one below was the first direction for the prototype.
 
 ![inspiration](https://github.com/ArthurYidi/Job-Status-Visualization/blob/1693a519171103c1683d68f2794c979d050d0135/docs/inspiration3.png?raw=true)
+
+The next step would be to explore a [Kanban board](https://en.wikipedia.org/wiki/Kanban_board).
+
+![inspiration](https://github.com/ArthurYidi/Job-Status-Visualization/blob/master/docs/inspiration1.jpg?raw=true)
