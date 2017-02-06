@@ -2,17 +2,6 @@
 
 #### Arthur Yidi
 
-## Quick Run
-
-Add missing `./build/data.json`
-
-Run local a server inside build:
-
-```
-cd ./build
-python -m SimpleHTTPServer 8080
-```
-
 ## Build Setup
 
 Add missing `data.json` to `./src/data.json`
