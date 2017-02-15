@@ -2,9 +2,9 @@
 
 ### Prototype
 
-[![jyve](https://github.com/ArthurYidi/Job-Status-Visualization/blob/master/docs/jyve.png?raw=true)](http://arthuryidi.s3-website-us-west-1.amazonaws.com/jyve/)
+[![jyve](https://github.com/ArthurYidi/Job-Status-Visualization/blob/master/docs/jyve.png?raw=true)](http://projects.arthuryidi.com/jyve/)
 
-[View Prototype](http://arthuryidi.s3-website-us-west-1.amazonaws.com/jyve/)
+[View Prototype](http://projects.arthuryidi.com/jyve/)
 
 ### Summary
 
